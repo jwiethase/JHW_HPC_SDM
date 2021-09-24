@@ -38,8 +38,8 @@ TZ_outline <- readOGR('/users/jhw538/scratch/TZ_INLA/data/TZ_simpler.shp')
 
 TZ_canopy_height <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_GEDI_500m.tif') %>% mask(., TZ_outline) 
 TZ_ann_rain_2000s <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_annual_median_rain_00_20.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
-TZ_min_temp_2000s <- raster('data/TZ_MODIS_coldest_temperature_00_20.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
-TZ_max_temp_2000s <- raster('data/TZ_MODIS_hottest_temperature_00_20.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)TZ_population <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_worldpop_2020_500m.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
+TZ_min_temp_2000s <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_MODIS_coldest_temperature_00_20.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
+TZ_max_temp_2000s <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_MODIS_hottest_temperature_00_20.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)TZ_population <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_worldpop_2020_500m.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
 degind_2010_14 <- raster('/users/jhw538/scratch/TZ_INLA/data/BG_2010_14_500m.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
 
 # Prepare BG layer ---------------------------------------------------
