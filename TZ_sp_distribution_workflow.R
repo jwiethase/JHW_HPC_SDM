@@ -18,9 +18,10 @@ source("/users/jhw538/scratch/TZ_INLA/source/MakePointsStack.R")
 source("/users/jhw538/scratch/TZ_INLA/source/misc_functions.R")
 
 # The species for the distribution model
-species_list = c('Eremopterix leucopareia')
-#species_list = c('Eremopterix leucopareia', 'Cisticola juncidis', 'Estrilda astrild', 'Histurgops ruficauda', 'Ploceus nigricollis', 'Cisticola brunnescens', 'Chrysococcyx cupreus', 'Tauraco hartlaubi',
-#'Ploceus castaneiceps')
+species_list = c('Cisticola juncidis')
+#species_list = c('Passer domesticus', 'Cisticola juncidis', 'Estrilda astrild', 'Histurgops ruficauda', 'Ploceus nigricollis', 
+#                 'Cisticola brunnescens', 'Chrysococcyx cupreus', 'Tauraco hartlaubi', 'Ploceus castaneiceps', 'Nigrita canicapilla', 
+#                 'Nectarinia kilimensis', 'Lanius collaris', 'Terpsiphone viridis', 'Oriolus auratus', 'Bubo capensis', 'Bubo africanus')
 i <- as.numeric(args[1])
 
 time_list = c('20s')
@@ -52,7 +53,7 @@ all_combs <- crossing(range_combs, sigma_combs)
 
 if(time == '60s'){
    ebird_full <- ebird_full %>% 
-      filter(date > '1980-01-01', date < '2000-01-01')
+      filter(date > '1960-01-01', date < '2000-01-01')
 }
 
 if(time == '20s'){
