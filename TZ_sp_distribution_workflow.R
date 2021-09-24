@@ -52,7 +52,7 @@ all_combs <- crossing(range_combs, sigma_combs)
 
 if(time == '60s'){
    ebird_full <- ebird_full %>% 
-      filter(date > '1960-01-01', date < '2000-01-01')
+      filter(date > '1980-01-01', date < '2000-01-01')
 }
 
 if(time == '20s'){
@@ -131,7 +131,7 @@ for (i in 1:NROW(all_combs)){
    
    form <- formula(
       resp ~ 0 + z.rain1.s + z.rain2.s +    # 0 suppresses default intercept
-         z.temp1.s + z.temp2.s + z.pop1.s + z.pop2.s + z.canopy1.s + z.canopy2.s + z.BG1.s + z.BG2.s + indicator +
+         z.temp_min1.s + z.temp_min2.s + z.temp_max1.s + z.temp_max2.s + z.pop1.s + z.pop2.s + z.canopy1.s + z.canopy2.s + z.BG1.s + z.BG2.s + indicator +
          Intercept + x + y + int.eBird + duration_minutes + 
          int.atlas + effort +
          f(i, model = spde)

@@ -40,7 +40,7 @@ MakeProjectionGrid  <- function(nxy, mesh, data, tag='pred', coordnames = c("X",
   NearestCovs@data[,colnames(NearestCovs@coords)] <- NearestCovs@coords
 
   # stack the predicted data
-  stk <- inla.stack(list(resp=cbind(NA, rep(NA, nrow(NearestCovs))), e=rep(0, nrow(NearestCovs))),
+  stk <- inla.stack(list(resp=cbind(NA, rep(NA, nrow(NearestCovs))), e=rep(NA, nrow(NearestCovs))),
                     A=list(1,Apred), tag=tag, effects=list(NearestCovs@data, list(i=1:mesh$n)))
   pred=list(stk=stk, xy.in=xy.in, predcoords=predcoords)
   pred

@@ -38,8 +38,8 @@ TZ_outline <- readOGR('/users/jhw538/scratch/TZ_INLA/data/TZ_simpler.shp')
 
 TZ_canopy_height <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_GEDI_500m.tif') %>% mask(., TZ_outline) 
 TZ_ann_rain_2000s <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_annual_median_rain_00_20.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
-TZ_ann_temp_2000s <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_MODIS_temperature_00_20.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
-TZ_population <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_worldpop_2020_500m.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
+TZ_min_temp_2000s <- raster('data/TZ_MODIS_coldest_temperature_00_20.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
+TZ_max_temp_2000s <- raster('data/TZ_MODIS_hottest_temperature_00_20.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)TZ_population <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_worldpop_2020_500m.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
 degind_2010_14 <- raster('/users/jhw538/scratch/TZ_INLA/data/BG_2010_14_500m.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
 
 # Prepare BG layer ---------------------------------------------------
@@ -55,9 +55,9 @@ values(indicator)[!is.na(values(indicator))] <- 1
 values(indicator)[is.na(values(indicator))] <- 0
 
 # Stack and convert to spdf
-variables <- stack(degind_2010_14, indicator, TZ_ann_rain_2000s, TZ_ann_temp_2000s, TZ_population, TZ_canopy_height)
+variables <- stack(degind_2010_14, indicator, TZ_ann_rain_2000s, TZ_min_temp_2000s, TZ_max_temp_2000s, TZ_population, TZ_canopy_height)
 variables <- as(variables, "SpatialPointsDataFrame")
-names(variables) <- c("BG", "indicator", "rain", "temp", "pop",  "canopy")
+names(variables) <- c("BG", "indicator", "rain", "temp_min", "temp_max", "pop",  "canopy")
 
 # BG_spdf <-  as(combined, "SpatialPointsDataFrame")
 # names(BG_spdf) <- c()
@@ -87,7 +87,8 @@ variables_no_BG <- variables_no_BG[!is.na(rowSums(variables_no_BG@data)), ]
 # variables$ID <- 1:NROW(coords)
 
 variables_no_BG <- prepare_GAM(variables_no_BG, "rain")
-variables_no_BG <- prepare_GAM(variables_no_BG, "temp")
+variables_no_BG <- prepare_GAM(variables_no_BG, "temp_min")
+variables_no_BG <- prepare_GAM(variables_no_BG, "temp_max")
 variables_no_BG <- prepare_GAM(variables_no_BG, "pop")
 variables_no_BG <- prepare_GAM(variables_no_BG, "canopy")
 
@@ -100,7 +101,7 @@ lincombs_wrapper <- function(file1, file2, new_var){
    names(lc) <- paste0(new_var, 1:100)
    assign(new_var, lc, envir = .GlobalEnv)
 }
-lincombs_wrapper(z.temp1.s, z.temp2.s, "z.temp_lc")
+# lincombs_wrapper(z.temp1.s, z.temp2.s, "z.temp_lc")
 lincombs_wrapper(z.rain1.s, z.rain2.s, "z.rain_lc")
 lincombs_wrapper(z.pop1.s, z.pop2.s, "z.pop_lc")
 lincombs_wrapper(z.canopy1.s, z.canopy2.s, "z.canopy_lc")
