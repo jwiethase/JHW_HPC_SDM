@@ -39,7 +39,8 @@ TZ_outline <- readOGR('/users/jhw538/scratch/TZ_INLA/data/TZ_simpler.shp')
 TZ_canopy_height <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_GEDI_500m.tif') %>% mask(., TZ_outline) 
 TZ_ann_rain_2000s <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_annual_median_rain_00_20.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
 TZ_min_temp_2000s <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_MODIS_coldest_temperature_00_20.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
-TZ_max_temp_2000s <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_MODIS_hottest_temperature_00_20.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)TZ_population <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_worldpop_2020_500m.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
+TZ_max_temp_2000s <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_MODIS_hottest_temperature_00_20.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
+TZ_population <- raster('/users/jhw538/scratch/TZ_INLA/data/TZ_worldpop_2020_500m.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
 degind_2010_14 <- raster('/users/jhw538/scratch/TZ_INLA/data/BG_2010_14_500m.tif') %>% mask(., TZ_outline) %>% projectRaster(., TZ_canopy_height)
 
 # Prepare BG layer ---------------------------------------------------
@@ -93,19 +94,19 @@ variables_no_BG <- prepare_GAM(variables_no_BG, "pop")
 variables_no_BG <- prepare_GAM(variables_no_BG, "canopy")
 
 ## Make some linear combinations:
-lincombs_wrapper <- function(file1, file2, new_var){
-   lc <- inla.make.lincombs(int.eBird = rep(1, 100),  # Change for all
-                            int.atlas = rep(1, 100),
-                            file1 = file1,
-                            file2 = file2)
-   names(lc) <- paste0(new_var, 1:100)
-   assign(new_var, lc, envir = .GlobalEnv)
-}
+#lincombs_wrapper <- function(file1, file2, new_var){
+#   lc <- inla.make.lincombs(int.eBird = rep(1, 100),  # Change for all
+#                            int.atlas = rep(1, 100),
+#                            file1 = file1,
+#                            file2 = file2)
+#   names(lc) <- paste0(new_var, 1:100)
+#   assign(new_var, lc, envir = .GlobalEnv)
+#}
 # lincombs_wrapper(z.temp1.s, z.temp2.s, "z.temp_lc")
-lincombs_wrapper(z.rain1.s, z.rain2.s, "z.rain_lc")
-lincombs_wrapper(z.pop1.s, z.pop2.s, "z.pop_lc")
-lincombs_wrapper(z.canopy1.s, z.canopy2.s, "z.canopy_lc")
-all_lc <- c(z.temp_lc, z.rain_lc, z.pop_lc, z.canopy_lc)
+#lincombs_wrapper(z.rain1.s, z.rain2.s, "z.rain_lc")
+#lincombs_wrapper(z.pop1.s, z.pop2.s, "z.pop_lc")
+#lincombs_wrapper(z.canopy1.s, z.canopy2.s, "z.canopy_lc")
+#all_lc <- c(z.temp_lc, z.rain_lc, z.pop_lc, z.canopy_lc)
 
 # Create the mesh to approximate the area and the spatial field
 # Meshpars <- list(max.edge = c(0.05, 0.4), offset = c(0.1, 0.4), cutoff = 0.1)    # Fine mesh
@@ -152,5 +153,5 @@ stk.pred <- MakeProjectionGrid(
    boundary = Boundary
 )
 
-save(proj, TZ_outline, ebird_full, atlas_full, Mesh, stk.ip, stk.pred, all_lc, variables_no_BG, file = paste0("/users/jhw538/scratch/TZ_INLA/data/TZ_INLA_model_file_E", round(max.edge, digits = 3), ".RData"))
+save(proj, TZ_outline, ebird_full, atlas_full, Mesh, stk.ip, stk.pred, variables_no_BG, file = paste0("/users/jhw538/scratch/TZ_INLA/data/TZ_INLA_model_file_E", round(max.edge, digits = 3), ".RData"))
 

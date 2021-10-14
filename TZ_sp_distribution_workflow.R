@@ -18,10 +18,10 @@ source("/users/jhw538/scratch/TZ_INLA/source/MakePointsStack.R")
 source("/users/jhw538/scratch/TZ_INLA/source/misc_functions.R")
 
 # The species for the distribution model
-species_list = c('Cisticola juncidis')
+species_list = c('Cisticola juncidis', 'Eremopterix leucopareia', 'Estrilda astrild', 'Histurgops ruficauda')
 #species_list = c('Passer domesticus', 'Cisticola juncidis', 'Estrilda astrild', 'Histurgops ruficauda', 'Ploceus nigricollis', 
 #                 'Cisticola brunnescens', 'Chrysococcyx cupreus', 'Tauraco hartlaubi', 'Ploceus castaneiceps', 'Nigrita canicapilla', 
-#                 'Nectarinia kilimensis', 'Lanius collaris', 'Terpsiphone viridis', 'Oriolus auratus', 'Bubo capensis', 'Bubo africanus')
+#                 'Nectarinia kilimensis', 'Lanius collaris', 'Terpsiphone viridis', 'Oriolus auratus', 'Bubo capensis', 'Bubo africanus', 'Eremopterix leucopareia')
 i <- as.numeric(args[1])
 
 time_list = c('20s')
